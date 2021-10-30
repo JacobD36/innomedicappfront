@@ -1,0 +1,16 @@
+<div class="wrapper dark-mode hold-transition sidebar-mini layout-fixed layout-navbar-fixed">
+    <!-- Preloader -->
+    <!--<div class="preloader flex-column justify-content-center align-items-center" *ngIf="viewPreloader">
+        <img class="animation__shake" src="assets/img/innomedic.png" alt="Innomedic_Logo" width="360px">
+    </div>-->
+    <app-navbar></app-navbar>
+    <!-- /.navbar -->
+    <app-sidebar></app-sidebar>
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <router-outlet></router-outlet>
+    </div>
+    <!-- /.content-wrapper -->
+    <app-footer></app-footer>
+</div>
+<!-- ./wrapper -->
