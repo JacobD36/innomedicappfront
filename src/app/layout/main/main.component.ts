@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-main',
@@ -6,22 +6,17 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
   styleUrls: ['./main.component.css']
 })
 export class MainComponent implements OnInit {
-  viewPreloader = true;
+  viewPreload = true;
 
-  constructor(
-    private cd: ChangeDetectorRef) { 
+  constructor() { 
   }
 
   ngOnInit(): void {
-    setTimeout(
-        this.quitPreloader, 
-      1000);
-
-    this.cd.detectChanges();
+    setTimeout(this.changeViewPreloader, 3000);
   }
 
-  quitPreloader() {
-    this.viewPreloader = false;
+  changeViewPreloader() {
+    this.viewPreload = false;
   }
 
 }
