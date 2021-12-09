@@ -1,53 +1,25 @@
-<div class="login-page dark-mode">
-    <div class="login-box">
-        <div class="login-logo">
-            <img src="assets/img/innomedic.png" alt="Innomedic_logo" width="360px">
-        </div>
-        <!-- /.login-logo -->
-        <div class="card">
-            <div class="card-body login-card-body">
-                <p class="login-box-msg">Ingrese sus credenciales</p>
-
-                <form>
-                    <div class="input-group mb-3">
-                        <input type="email" class="form-control" placeholder="Correo">
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-envelope"></span>
-                            </div>
-                        </div>
+<div class="d-flex align-items-center justify-content-center ht-100v">
+    <img src="assets/img/fondo_4.jpg" class="wd-100p ht-100p object-fit-cover" alt="">
+    <div class="overlay-body bg-black-6 d-flex align-items-center justify-content-center" style="background-color: rgba(0,0,0,0.3) !important;">
+        <form (ngSubmit)="login()" [formGroup]="miFormulario">
+            <div class="login-wrapper wd-300 wd-xs-350 pd-25 pd-xs-40 rounded bd bd-white-2 bg-black-7">
+                <!--<div class="signin-logo tx-center tx-28 tx-bold tx-white"><span class="tx-normal"></span> CRM <span class="tx-info">plus</span> <span class="tx-normal"></span></div>-->
+                <div class="signin-logo tx-center tx-28 tx-bold tx-white">
+                    <div class="login-logo">
+                        <img src="assets/img/innomedic_logo.png" alt="Innomedic_logo" width="270px">
                     </div>
-                    <div class="input-group mb-3">
-                        <input type="password" class="form-control" placeholder="Contraseña">
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-lock"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-8">
-                            <div class="icheck-primary">
-                                <input type="checkbox" id="remember">
-                                <label for="remember">
-                        Recuerdame
-                    </label>
-                            </div>
-                        </div>
-                        <!-- /.col -->
-                        <div class="col-4">
-                            <button [routerLink]="'/intranet'" type="button" class="btn btn-primary btn-block">Ingresar</button>
-                        </div>
-                        <!-- /.col -->
-                    </div>
-                </form>
-                <hr>
-                <p class="mb-1">
-                    <a href="javascript:void(0)">Olvidé mi contraseña</a>
-                </p>
+                </div>
+                <div class="tx-white-5 tx-center mg-b-60">Portal Administrativo</div>
+                <span *ngIf="campoNoValido('dni')" class="text-danger animated fadeIn">Mínimo 8 caracteres</span>
+                <div class="form-group">
+                    <input type="text" name="dni" class="form-control fc-outline-dark" placeholder="Ingrese su DNI" formControlName="dni" autocomplete="off">
+                </div>
+                <span *ngIf="campoNoValido('password')" class="text-danger animated fadeIn">Por favor, ingrese su contraseña</span>
+                <div class="form-group">
+                    <input type="password" name="password" class="form-control fc-outline-dark" placeholder="Ingrese su contraseña" formControlName="password">
+                </div>
+                <button type="submit" class="btn btn-info btn-block" [disabled]="miFormulario.invalid">Ingresar</button>
             </div>
-            <!-- /.login-card-body -->
-        </div>
+        </form>
     </div>
-    <!-- /.login-box -->
 </div>

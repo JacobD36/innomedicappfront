@@ -1,11 +1,7 @@
-<div class="wrapper dark-mode">
-    <!-- Preloader -->
-    <!--<div class="preloader flex-column justify-content-center align-items-center">
-        <img class="animation__shake" src="assets/img/innomedic.png" alt="Innomedic_Logo" width="360px">
-    </div>-->
-    <app-navbar></app-navbar>
+<div class="wrapper" [ngClass]="{'dark-mode': darkMode == 1}">
+    <app-navbar (onModeChange)="cambiaModo()"></app-navbar>
     <!-- /.navbar -->
-    <app-sidebar></app-sidebar>
+    <app-sidebar [userInfo]="userInfo"></app-sidebar>
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <router-outlet></router-outlet>

@@ -1,5 +1,5 @@
 <!-- Navbar -->
-<nav class="main-header navbar navbar-expand navbar-gray-dark navbar-dark">
+<nav class="main-header navbar navbar-expand" [ngClass]="modoDark == 1 ? 'navbar-gray-dark navbar-dark' : 'navbar-dark navbar-cyan'">
     <!-- Left navbar links -->
     <ul class="navbar-nav">
         <li class="nav-item">
@@ -16,6 +16,52 @@
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
         <!-- Messages Dropdown Menu -->
+        <li class="nav-item d-none d-sm-inline-block custom-control custom-switch" style="margin-top: 7px;">
+            <form #miFormulario="ngForm">
+                <input type="checkbox" role="switch" class="custom-control custom-switch custom-control-input" id="customSwitch1" [(ngModel)]="modoSwitch" name="modoSwitch" (change)="cambiaModo()">
+                <label class="custom-control-label" for="customSwitch1" style="color: rgba(255,255,255,.75) !important;font-weight: 400 !important;">Modo Oscuro</label>
+            </form>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+        <li class="navbar-item dropdown">
+            <a class="nav-link" data-toggle="dropdown" href="#">Mantenimiento<span class="caret"></span></a>
+            <div class="dropdown-menu dropdown-menu-md dropdown-menu-right">
+                <a href="javascript:void(0)" class="dropdown-item">
+                    <div class="media-body">
+                        <h3 class="dropdown-item-title">
+                            <i class="fas fa-users nav-icon"></i>&nbsp;&nbsp;Usuarios
+                        </h3>
+                    </div>
+                </a>
+                <div class="dropdown-divider"></div>
+                <a href="javascript:void(0)" class="dropdown-item">
+                    <div class="media-body">
+                        <h3 class="dropdown-item-title">
+                            <i class="fas fa-building nav-icon"></i>&nbsp;&nbsp;Sedes
+                        </h3>
+                    </div>
+                </a>
+                <div class="dropdown-divider"></div>
+                <a href="javascript:void(0)" class="dropdown-item">
+                    <div class="media-body">
+                        <h3 class="dropdown-item-title">
+                            <i class="far fa-id-badge nav-icon"></i>&nbsp;&nbsp;Perfiles
+                        </h3>
+                    </div>
+                </a>
+                <div class="dropdown-divider"></div>
+                <a href="javascript:void(0)" class="dropdown-item">
+                    <div class="media-body">
+                        <h3 class="dropdown-item-title">
+                            <i class="fas fa-user-md nav-icon"></i>&nbsp;&nbsp;Puestos
+                        </h3>
+                    </div>
+                </a>
+            </div>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="javascript:void(0)" (click)="salir()" class="nav-link">Salir</a>
+        </li>
         <li class="nav-item dropdown">
             <a class="nav-link" data-toggle="dropdown" href="#">
                 <i class="far fa-comments"></i>
