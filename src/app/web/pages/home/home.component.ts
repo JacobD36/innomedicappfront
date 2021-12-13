@@ -22,7 +22,7 @@ export class HomeComponent implements OnInit {
         window.location.reload();
       });
     } else {
-      this.router.navigateByUrl('/intranet');
+      this.router.navigateByUrl('/auth');
     }
   }
 }

@@ -69,6 +69,7 @@ export class LoginService {
       if(expiresAt > new Date()) {
         return true;
       } else {
+        this.logout();
         return false;
       }
     }

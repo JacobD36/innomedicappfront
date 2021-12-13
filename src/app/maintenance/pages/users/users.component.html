@@ -1,0 +1,200 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Usuarios</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a [routerLink]="'/intranet'">Inicio</a></li>
+                    <li class="breadcrumb-item active">Usuarios</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    <!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="col-md-3 col-sm-6 col-12">
+            <div class="info-box">
+                <span class="info-box-icon bg-info"><i class="far fa-envelope"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text">Messages</span>
+                    <span class="info-box-number">1,410</span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-md-3 col-sm-6 col-12">
+            <div class="info-box">
+                <span class="info-box-icon bg-success"><i class="far fa-flag"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text">Bookmarks</span>
+                    <span class="info-box-number">410</span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-md-3 col-sm-6 col-12">
+            <div class="info-box">
+                <span class="info-box-icon bg-warning"><i class="far fa-copy"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text">Uploads</span>
+                    <span class="info-box-number">13,648</span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-md-3 col-sm-6 col-12">
+            <div class="info-box">
+                <span class="info-box-icon bg-danger"><i class="far fa-star"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text">Likes</span>
+                    <span class="info-box-number">93,139</span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+
+    <div class="row">
+        <div class="col">
+            <div class="card card-outline card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">Filtros de búsqueda</h3>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4 col-xs-12">
+                            <div class="form-group">
+                                <label>Date:</label>
+                                <div class="input-group date" id="reservationdate" data-target-input="nearest">
+                                    <input type="text" class="form-control datetimepicker-input" data-target="#reservationdate" />
+                                    <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
+                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-xs-12">
+                            <div class="form-group">
+                                <label for="datepicker_2">Fecha Final</label>
+                                <div class="input-group date">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input type="text" class="form-control pull-right" id="datepicker2" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-xs-12">
+                            <div class="form-group">
+                                <label for="b_valor_2">Texto a buscar</label>
+                                <input type="text" class="form-control" id="b_valor_2" placeholder="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <button type="button" class="btn btn-primary" id="buscar_audio" style="float:right;">
+                                    <i class="glyphicon glyphicon-search"></i> Buscar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+        </div>
+    </div>
+
+
+
+    <div class="card card-outline card-primary">
+        <div class="card-header">
+            <h3 class="card-title">Usuarios registrados</h3>
+        </div>
+        <div class="card-body">
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body table-responsive p-0">
+                            <table class="table table-striped table-hover text-wrap">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>DNI</th>
+                                        <th>NOMBRES</th>
+                                        <th>APELLIDOS</th>
+                                        <th>ESTADO</th>
+                                        <th>FECH_CREACION</th>
+                                        <th>FECH_MODIF</th>
+                                        <th>OPCIONES</th>
+                                    </tr>
+                                </thead>
+                                <tbody *ngIf="usersLength()">
+                                    <tr>
+                                        <td colspan="7">NO HAY DATA</td>
+                                    </tr>
+                                </tbody>
+                                <tbody *ngIf="!usersLength()">
+                                    <tr *ngFor="let usuario of usuarios; let i=index">
+                                        <td>{{usuario.id}}</td>
+                                        <td class="text-center">{{usuario.dni}}</td>
+                                        <td>{{usuario.name1 + ' ' + usuario.name2}}</td>
+                                        <td>{{usuario.lastName1 + ' ' + usuario.lastName2}}</td>
+                                        <td class="text-center"><span [ngClass]="usuario.status == 1 ? 'badge badge-success' : 'badge badge-danger'">{{usuario.status == 1 ? 'ACTIVO' : 'INACTIVO'}}</span></td>
+                                        <td>{{usuario.createAt | date: 'short'}}</td>
+                                        <td>{{usuario.modifiedAt | date: 'short'}}</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-danger">
+                                                Borrar
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.card-body -->
+                        <div class="card-footer clearfix">
+                            <ul class="pagination pagination-md m-0 float-right">
+                                <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
+                                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- /.card -->
+                </div>
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+
+</section>
+<!-- /.content -->
