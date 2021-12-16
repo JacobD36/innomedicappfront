@@ -168,19 +168,19 @@ export class UsersComponent implements OnInit, OnDestroy {
         });
         return;
       }
-      /*Swal.fire({
+      Swal.fire({
         icon: 'info',
         allowOutsideClick: false,
         text: 'Espere, por favor...',
       });
-      Swal.showLoading();*/
+      Swal.showLoading();
       this.getUsersList(this.usersForm.get('txtToSeek')?.value, '1', fech_ini, fech_fin);
     }
   }
 
   getUsersList(search: string, page: string, f_ini: string, f_fin: string) {
     this.usersSubscription = this.usersService.userList(search, page, f_ini, f_fin).subscribe(resp => {
-      //Swal.close();
+      Swal.close();
       this.usuarios = resp;
     });
   }
