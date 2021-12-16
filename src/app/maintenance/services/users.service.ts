@@ -15,8 +15,8 @@ export class UsersService {
     private authService: LoginService
   ) { }
 
-  userList(): Observable<UsersResponse[]> {
-    const params: HttpParams = new HttpParams().set('search', '').set('page', '1');
+  userList(search: string, page: string, f_ini: string, f_fin: string): Observable<UsersResponse[]> {
+    const params: HttpParams = new HttpParams().set('search', search).set('page', page).set('f_ini', f_ini).set('f_fin', f_fin);
     const headers: HttpHeaders = new HttpHeaders().set(
       'Content-Type', 'application/json'
     ).set(
