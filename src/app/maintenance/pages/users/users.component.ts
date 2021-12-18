@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { ValidatorService } from '../../../shared/services/validator.service';
+import { Globals } from '../../../shared/globals';
 
 const I18N_VALUES = {
   'es': {
@@ -124,13 +125,15 @@ export class UsersComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private validatorService: ValidatorService,
     config: NgbModalConfig,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    public globals: Globals
   ) { 
     config.backdrop = 'static';
     config.keyboard = false;
   }
 
   ngOnInit(): void {
+    this.globals.isLoading = true;
     this.getUsersList('', '1', '', '');
   }
 
@@ -168,19 +171,14 @@ export class UsersComponent implements OnInit, OnDestroy {
         });
         return;
       }
-      Swal.fire({
-        icon: 'info',
-        allowOutsideClick: false,
-        text: 'Espere, por favor...',
-      });
-      Swal.showLoading();
+      this.globals.isLoading = true;
       this.getUsersList(this.usersForm.get('txtToSeek')?.value, '1', fech_ini, fech_fin);
     }
   }
 
   getUsersList(search: string, page: string, f_ini: string, f_fin: string) {
     this.usersSubscription = this.usersService.userList(search, page, f_ini, f_fin).subscribe(resp => {
-      Swal.close();
+      this.globals.isLoading = false;
       this.usuarios = resp;
     });
   }

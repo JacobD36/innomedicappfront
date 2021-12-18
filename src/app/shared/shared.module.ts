@@ -5,14 +5,14 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { FooterComponent } from './footer/footer.component';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-
-
+import { ReadingComponent } from './reading/reading.component';
 
 @NgModule({
   declarations: [
     NavbarComponent,
     SidebarComponent,
-    FooterComponent
+    FooterComponent,
+    ReadingComponent
   ],
   imports: [
     CommonModule,
@@ -22,7 +22,8 @@ import { FormsModule } from '@angular/forms';
   exports: [
     NavbarComponent,
     SidebarComponent,
-    FooterComponent
+    FooterComponent,
+    ReadingComponent
   ]
 })
 export class SharedModule { }

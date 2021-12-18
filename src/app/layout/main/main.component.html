@@ -4,7 +4,9 @@
     <app-sidebar [userInfo]="userInfo"></app-sidebar>
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-        <router-outlet></router-outlet>
+        <router-outlet>
+            <app-reading></app-reading>
+        </router-outlet>
     </div>
     <!-- /.content-wrapper -->
     <app-footer></app-footer>

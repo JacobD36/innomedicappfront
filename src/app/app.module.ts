@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { SharedModule } from './shared/shared.module';
 import { LayoutModule } from './layout/layout.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { Globals } from './shared/globals';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     LayoutModule,
     NgbModule
   ],
-  providers: [],
+  providers: [Globals],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

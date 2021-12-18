@@ -10,6 +10,7 @@ const routes: Routes = [
   },
   {
     path: 'intranet',
+    canLoad: [AuthGuard],
     canActivate: [AuthGuard],
     component: MainComponent,
     children: [
