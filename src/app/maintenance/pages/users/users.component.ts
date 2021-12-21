@@ -180,6 +180,12 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.usersSubscription = this.usersService.userList(search, page, f_ini, f_fin).subscribe(resp => {
       this.globals.isLoading = false;
       this.usuarios = resp;
+    }, (err) => {
+      Swal.fire({
+        icon: 'error',
+        title: '¡Ha ocurrido un error!',
+        text: err.error
+      });
     });
   }
 

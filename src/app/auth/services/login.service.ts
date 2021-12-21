@@ -4,6 +4,7 @@ import { environment } from 'src/environments/environment';
 import { LoginModel } from '../../models/login.model';
 import { map } from 'rxjs/operators';
 import { AuthResponse } from '../../models/auth-response.model';
+import Swal from 'sweetalert2';
 
 @Injectable({
   providedIn: 'root'
@@ -43,7 +44,7 @@ export class LoginService {
     localStorage.setItem('id', id);
 
     let today = new Date();
-    today.setSeconds(3600);
+    today.setSeconds(900);
 
     localStorage.setItem('expire', today.getTime().toString());
   }
@@ -69,6 +70,15 @@ export class LoginService {
       if(expiresAt > new Date()) {
         return true;
       } else {
+        Swal.fire({
+          title: 'Tiempo de sesión expirado',
+          text: "Su tiempo de sesión ha expirado por inactividad. Por favor, vuelva a ingresar al sistema.",
+          icon: 'warning',
+          showCancelButton: false,
+          confirmButtonColor: '#3085d6',
+          confirmButtonText: 'Ok',
+          allowOutsideClick: false
+        });
         this.logout();
         return false;
       }
