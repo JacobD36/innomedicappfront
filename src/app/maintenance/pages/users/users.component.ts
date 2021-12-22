@@ -223,6 +223,7 @@ export class UsersComponent implements OnInit, OnDestroy {
   }
 
   getPage($event: any) {
+    this.globals.isLoading = false;
     this.getUsersList(this.usersForm.get('txtToSeek')?.value, $event, this.usersForm.get('f_ini')?.value || '', this.usersForm.get('f_fin')?.value || '');
   }
 
