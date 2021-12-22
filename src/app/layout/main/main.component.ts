@@ -41,7 +41,7 @@ export class MainComponent implements OnInit {
         text: err.error,
         allowOutsideClick: false
       }).then((result) => {
-        this.router.navigateByUrl(`/auth`);  
+        this.router.navigateByUrl(`/auth`);
       });
     });
   }

@@ -8,6 +8,8 @@ import Swal from 'sweetalert2';
 import { ValidatorService } from '../../../shared/services/validator.service';
 import { Globals } from '../../../shared/globals';
 import { tap } from 'rxjs/operators';
+import { LoginService } from '../../../auth/services/login.service';
+import { Router } from '@angular/router';
 
 const I18N_VALUES = {
   'es': {
@@ -129,7 +131,9 @@ export class UsersComponent implements OnInit, OnDestroy {
     private validatorService: ValidatorService,
     config: NgbModalConfig,
     private modalService: NgbModal,
-    public globals: Globals
+    public globals: Globals,
+    private authService: LoginService,
+    private router: Router
   ) { 
     config.backdrop = 'static';
     config.keyboard = false;
@@ -180,22 +184,32 @@ export class UsersComponent implements OnInit, OnDestroy {
   }
 
   getUsersList(search: string, page: string, f_ini: string, f_fin: string) {
-    this.usersSubscription = this.usersService.userList(search, page, f_ini, f_fin).pipe(
-      tap(resp => {
-        this.usersService.usersCount(search, f_ini, f_fin).subscribe(i => {
-          this.count = i;
+    if(this.authService.isAuth()) {
+      this.usersSubscription = this.usersService.userList(search, page, f_ini, f_fin).pipe(
+        tap(resp => {
+          this.usersService.usersCount(search, f_ini, f_fin).subscribe(i => {
+            this.count = i;
+          });
+        })
+      ).subscribe(resp => {
+        this.globals.isLoading = false;
+        this.usuarios = resp;
+      }, (err) => {
+        this.globals.isLoading = false;
+        Swal.fire({
+          icon: 'error',
+          title: '¡Ha ocurrido un error!',
+          text: err.error,
+          allowOutsideClick: false
         });
-      })
-    ).subscribe(resp => {
-      this.globals.isLoading = false;
-      this.usuarios = resp;
-    }, (err) => {
-      Swal.fire({
-        icon: 'error',
-        title: '¡Ha ocurrido un error!',
-        text: err.error
+        this.authService.logout();
+        this.router.navigateByUrl(`/auth`);
       });
-    });
+    } else {
+      this.authService.logout();
+      this.router.navigateByUrl(`/auth`);
+      this.globals.isLoading = false;
+    }
   }
 
   usersLength() : boolean {
