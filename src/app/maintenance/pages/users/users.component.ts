@@ -7,6 +7,7 @@ import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { ValidatorService } from '../../../shared/services/validator.service';
 import { Globals } from '../../../shared/globals';
+import { tap } from 'rxjs/operators';
 
 const I18N_VALUES = {
   'es': {
@@ -111,6 +112,7 @@ export class UsersComponent implements OnInit, OnDestroy {
   usersSubscription!: Subscription;
   f_ini!: string;
   f_fin!: string;
+  count: number = 0;
 
   initForm = {
     f_ini: '',
@@ -177,7 +179,13 @@ export class UsersComponent implements OnInit, OnDestroy {
   }
 
   getUsersList(search: string, page: string, f_ini: string, f_fin: string) {
-    this.usersSubscription = this.usersService.userList(search, page, f_ini, f_fin).subscribe(resp => {
+    this.usersSubscription = this.usersService.userList(search, page, f_ini, f_fin).pipe(
+      tap(resp => {
+        this.usersService.usersCount(search, f_ini, f_fin).subscribe(i => {
+          this.count = i;
+        });
+      })
+    ).subscribe(resp => {
       this.globals.isLoading = false;
       this.usuarios = resp;
     }, (err) => {
@@ -208,7 +216,9 @@ export class UsersComponent implements OnInit, OnDestroy {
   }
 
   open(content: any) {
-    this.modalService.open(content);
+    this.modalService.open(content, {
+      size: 'lg'
+    });
   }
 
   ngOnDestroy(): void {

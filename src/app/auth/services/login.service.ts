@@ -1,10 +1,11 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { LoginModel } from '../../models/login.model';
-import { map } from 'rxjs/operators';
+import { LoginModel, TokenModel } from '../../models/login.model';
+import { map, tap } from 'rxjs/operators';
 import { AuthResponse } from '../../models/auth-response.model';
 import Swal from 'sweetalert2';
+import { User } from 'src/app/models/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -68,6 +69,7 @@ export class LoginService {
       expiresAt.setTime(EXPIRA);
 
       if(expiresAt > new Date()) {
+        this.renewToken();
         return true;
       } else {
         Swal.fire({
@@ -83,5 +85,25 @@ export class LoginService {
         return false;
       }
     }
+  }
+
+  renewToken() {
+    const params: HttpParams = new HttpParams().set('id', localStorage.getItem('id')!);
+    const headers: HttpHeaders = new HttpHeaders().set(
+      'Content-Type', 'application/json'
+    ).set(
+      'Authorization', 'Bearer' + this.getToken()
+    );
+
+    this.http.get<User>(`${environment.url}/getUser`, {headers, params}).pipe(
+      tap(resp => {
+        this.http.post<TokenModel>(`${environment.url}/renewToken`, resp, {headers}).subscribe(data => {
+          localStorage.setItem('token', data.token);
+          let today = new Date();
+          today.setSeconds(900);
+          localStorage.setItem('expire', today.getTime().toString());
+        });
+      })
+    ).subscribe();
   }
 }

@@ -25,4 +25,15 @@ export class UsersService {
     
     return this.http.get<UsersResponse[]>(`${environment.url}/usersList`, {headers, params});
   }
+
+  usersCount(search: string, f_ini: string, f_fin: string) {
+    const params: HttpParams = new HttpParams().set('search', search).set('f_ini', f_ini).set('f_fin', f_fin);
+    const headers: HttpHeaders = new HttpHeaders().set(
+      'Content-Type', 'application/json'
+    ).set(
+      'Authorization', 'Bearer' + this.authService.getToken()
+    );
+    
+    return this.http.get<number>(`${environment.url}/usersCount`, {headers, params});
+  }
 }
