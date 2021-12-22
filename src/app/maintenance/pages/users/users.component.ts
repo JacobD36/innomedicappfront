@@ -113,6 +113,7 @@ export class UsersComponent implements OnInit, OnDestroy {
   f_ini!: string;
   f_fin!: string;
   count: number = 0;
+  page: number = 1;
 
   initForm = {
     f_ini: '',
@@ -219,6 +220,10 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.modalService.open(content, {
       size: 'lg'
     });
+  }
+
+  getPage($event: any) {
+    this.getUsersList(this.usersForm.get('txtToSeek')?.value, $event, this.usersForm.get('f_ini')?.value || '', this.usersForm.get('f_fin')?.value || '');
   }
 
   ngOnDestroy(): void {
