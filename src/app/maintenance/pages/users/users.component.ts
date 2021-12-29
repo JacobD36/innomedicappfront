@@ -118,7 +118,7 @@ export class UsersComponent implements OnInit, OnDestroy {
     nombre2: [''],
     apellido1: ['', [Validators.required]],
     apellido2: ['', [Validators.required]],
-    email: ['', [Validators.required, Validators.email]],
+    email: ['', [Validators.required, Validators.pattern(this.validatorService.emailPattern)]],
     fech_nac: ['', [Validators.required]]
   });
 
