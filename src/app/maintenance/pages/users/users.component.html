@@ -21,11 +21,11 @@
     <div class="row">
         <div class="col-md-3 col-sm-6 col-12">
             <div class="info-box">
-                <span class="info-box-icon bg-info"><i class="far fa-envelope"></i></span>
+                <span class="info-box-icon bg-info"><i class="fas fa-eye"></i></span>
 
                 <div class="info-box-content">
-                    <span class="info-box-text">Messages</span>
-                    <span class="info-box-number">1,410</span>
+                    <span class="info-box-text">Activos</span>
+                    <span class="info-box-number">0</span>
                 </div>
                 <!-- /.info-box-content -->
             </div>
@@ -34,11 +34,11 @@
         <!-- /.col -->
         <div class="col-md-3 col-sm-6 col-12">
             <div class="info-box">
-                <span class="info-box-icon bg-success"><i class="far fa-flag"></i></span>
+                <span class="info-box-icon bg-success"><i class="fas fa-eye-slash"></i></span>
 
                 <div class="info-box-content">
-                    <span class="info-box-text">Bookmarks</span>
-                    <span class="info-box-number">410</span>
+                    <span class="info-box-text">Inactivos</span>
+                    <span class="info-box-number">0</span>
                 </div>
                 <!-- /.info-box-content -->
             </div>
@@ -47,11 +47,11 @@
         <!-- /.col -->
         <div class="col-md-3 col-sm-6 col-12">
             <div class="info-box">
-                <span class="info-box-icon bg-warning"><i class="far fa-copy"></i></span>
+                <span class="info-box-icon bg-warning"><i class="fab fa-black-tie"></i></span>
 
                 <div class="info-box-content">
-                    <span class="info-box-text">Uploads</span>
-                    <span class="info-box-number">13,648</span>
+                    <span class="info-box-text">Administradores</span>
+                    <span class="info-box-number">0</span>
                 </div>
                 <!-- /.info-box-content -->
             </div>
@@ -60,11 +60,11 @@
         <!-- /.col -->
         <div class="col-md-3 col-sm-6 col-12">
             <div class="info-box">
-                <span class="info-box-icon bg-danger"><i class="far fa-star"></i></span>
+                <span class="info-box-icon bg-danger"><i class="fas fa-chalkboard-teacher"></i></span>
 
                 <div class="info-box-content">
-                    <span class="info-box-text">Likes</span>
-                    <span class="info-box-number">93,139</span>
+                    <span class="info-box-text">Otros</span>
+                    <span class="info-box-number">0</span>
                 </div>
                 <!-- /.info-box-content -->
             </div>
@@ -111,7 +111,7 @@
                             <div class="col-md-4 col-xs-12">
                                 <div class="form-group">
                                     <label>Texto a buscar</label>
-                                    <input type="text" class="form-control" formControlName="txtToSeek" placeholder="" placeholder="DNI, Apellidos, Nombres">
+                                    <input type="text" class="form-control" formControlName="txtToSeek" placeholder="DNI, Apellidos, Nombres">
                                 </div>
                             </div>
                         </div>
@@ -127,8 +127,6 @@
             <!-- /.card -->
         </div>
     </div>
-
-
 
     <div class="card card-outline card-primary">
         <div class="card-header">
@@ -179,15 +177,6 @@
                             </table>
                         </div>
                         <!-- /.card-body -->
-                        <!--<div class="card-footer clearfix" *ngIf="!usersLength()">
-                            <ul class="pagination pagination-md m-0 float-right">
-                                <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
-                                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
-                            </ul>
-                        </div>-->
                         <ngb-pagination class="d-flex justify-content-end pr-3 pt-2" [(page)]="page" [pageSize]="10" [collectionSize]="count" (pageChange)="getPage($event)"></ngb-pagination>
                     </div>
                     <!-- /.card -->
@@ -207,10 +196,80 @@
           </button>
         </div>
         <div class="modal-body">
-            <p>Hello, World!</p>
+            <form autocomplete="off" (ngSubmit)="saveNewUser()" [formGroup]="newUserForm">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6 col-xs-12">
+                            <div class="form-group">
+                                <label for="dni">DNI</label>
+                                <input type="text" class="form-control" id="dni" placeholder="DNI del usuario" formControlName="dni" (keypress)="restrictNumeric($event)">
+                                <span *ngIf="invalidNewUserField('dni')" class="text-danger animated fadeIn">Mínimo 8 caracteres</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-xs-12">
+                            <div class="form-group">
+                                <label for="perfil">Perfil</label>
+                                <select class="form-control" id="perfil" formControlName="perfil">
+                                  <option value="">Seleccione un perfil</option>
+                                  <option>Administrador</option>
+                                </select>
+                                <span *ngIf="invalidNewUserField('perfil')" class="text-danger animated fadeIn">Por favor, seleccione un valor</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-xs-12">
+                            <div class="form-group">
+                                <label for="nombre1">Primer Nombre</label>
+                                <input type="text" class="form-control" id="nombre1" placeholder="Ingrese su primer nombre" formControlName="nombre1">
+                                <span *ngIf="invalidNewUserField('nombre1')" class="text-danger animated fadeIn">Este campo es requerido</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-xs-12">
+                            <div class="form-group">
+                                <label for="nombre2">Segundo Nombre</label>
+                                <input type="text" class="form-control" id="nombre2" placeholder="Ingrese su segundo nombre" formControlName="nombre2">
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-xs-12">
+                            <div class="form-group">
+                                <label for="apellido1">Apellido Paterno</label>
+                                <input type="text" class="form-control" id="apellido1" placeholder="Ingrese su apellido paterno" formControlName="apellido1">
+                                <span *ngIf="invalidNewUserField('apellido1')" class="text-danger animated fadeIn">Este campo es requerido</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-xs-12">
+                            <div class="form-group">
+                                <label for="apellido2">Apellido Materno</label>
+                                <input type="text" class="form-control" id="apellido2" placeholder="Ingrese su apellido materno" formControlName="apellido2">
+                                <span *ngIf="invalidNewUserField('apellido2')" class="text-danger animated fadeIn">Este campo es requerido</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-xs-12">
+                            <div class="form-group">
+                                <label for="email">Correo electrónico</label>
+                                <input type="text" class="form-control" id="email" placeholder="Ingrese su correo electrónico" formControlName="email">
+                                <span *ngIf="invalidNewUserField('email')" class="text-danger animated fadeIn">Este campo es requerido</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-xs-12">
+                            <label for="fech_nac">Fecha de nacimiento</label>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="dd/mm/aaaa" id="fech_nac" ngbDatepicker #fech_nac="ngbDatepicker" formControlName="fech_nac">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-outline-secondary far fa-calendar-alt" (click)="fech_nac.toggle()" type="button"></button>
+                                    </div>
+                                </div>
+                                <span *ngIf="invalidNewUserField('fech_nac')" class="text-danger animated fadeIn">Este campo es requerido</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-outline-dark" (click)="c('Save click')">Save</button>
+            <button type="button" class="btn btn-primary" (click)="saveNewUser()" [disabled]="this.newUserForm.invalid || isSaving"><i *ngIf="isSaving" class="fas fa-spinner fa-pulse"></i> Grabar</button>
+            <!--<button type="button" class="btn btn-danger" (click)="c('Save click')">Cancelar</button>-->
+            <button type="button" class="btn btn-danger" (click)="close()">Cancelar</button>
         </div>
     </ng-template>
 </section>

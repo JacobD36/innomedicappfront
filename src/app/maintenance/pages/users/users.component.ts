@@ -10,6 +10,7 @@ import { Globals } from '../../../shared/globals';
 import { tap } from 'rxjs/operators';
 import { LoginService } from '../../../auth/services/login.service';
 import { Router } from '@angular/router';
+import { User } from '../../../models/user.model';
 
 const I18N_VALUES = {
   'es': {
@@ -110,11 +111,22 @@ export class UsersComponent implements OnInit, OnDestroy {
     txtToSeek: ['']
   });
 
+  newUserForm: FormGroup = this.fb.group({
+    dni: ['', [Validators.required, Validators.minLength(8)]],
+    perfil: ['', [Validators.required]],
+    nombre1: ['', [Validators.required]],
+    nombre2: [''],
+    apellido1: ['', [Validators.required]],
+    apellido2: ['', [Validators.required]],
+    email: ['', [Validators.required, Validators.email]],
+    fech_nac: ['', [Validators.required]]
+  });
+
   usuarios: UsersResponse[] = [];
   usersSubscription!: Subscription;
   f_ini!: string;
   f_fin!: string;
-  count: number = 0;
+  count!: number;
   page: number = 1;
 
   initForm = {
@@ -122,6 +134,10 @@ export class UsersComponent implements OnInit, OnDestroy {
     f_fin: '',
     txtToSeek: ''
   }
+
+  isSaving: boolean = false;
+
+  newUser!: User;
 
   constructor(
     private usersService: UsersService,
@@ -194,6 +210,9 @@ export class UsersComponent implements OnInit, OnDestroy {
       ).subscribe(resp => {
         this.globals.isLoading = false;
         this.usuarios = resp;
+        this.usuarios.forEach(user => {
+          if(!user.name2) {user.name2 = '';}
+        });
       }, (err) => {
         this.globals.isLoading = false;
         Swal.fire({
@@ -230,15 +249,110 @@ export class UsersComponent implements OnInit, OnDestroy {
     return this.usersForm.get(field)?.invalid && this.usersForm.get(field)?.touched;
   }
 
+  invalidNewUserField(field: string) {
+    return this.newUserForm.get(field)?.invalid && this.newUserForm.get(field)?.touched;
+  }
+
   open(content: any) {
     this.modalService.open(content, {
       size: 'lg'
     });
   }
 
+  close() {
+    this.newUserForm.reset();
+    this.modalService.dismissAll();
+  }
+
   getPage($event: any) {
     this.globals.isLoading = true;
     this.getUsersList(this.usersForm.get('txtToSeek')?.value, $event, this.usersForm.get('f_ini')?.value || '', this.usersForm.get('f_fin')?.value || '');
+  }
+
+  //Valida la entrada sólo de números
+  restrictNumeric(e: any) {
+    let input;
+    if (e.metaKey || e.ctrlKey) {
+      return true;
+    }
+    if (e.which === 32) {
+     return false;
+    }
+    if (e.which === 0) {
+     return true;
+    }
+    if (e.which < 33) {
+      return true;
+    }
+    input = String.fromCharCode(e.which);
+    return !!/[\d\s]/.test(input);
+   }
+  
+  saveNewUser() {
+    const fech_nac: string = this.newUserForm.get('fech_nac')?.value || '';
+
+    if(this.authService.isAuth()) {
+      if(this.validDate(fech_nac)) {
+        this.isSaving = true;
+  
+        let bDate = fech_nac.split('-');
+        if(bDate[0].length < 2) {bDate[0] = '0'+bDate[0];}
+        if(bDate[1].length < 2) {bDate[1] = '0'+bDate[1];}
+  
+        this.newUser = {
+          dni: this.newUserForm.get('dni')?.value,
+          email: this.newUserForm.get('email')?.value,
+          idProfile: 1,
+          status: 1,
+          name1: this.newUserForm.get('nombre1')?.value,
+          name2: this.newUserForm.get('nombre2')?.value,
+          lastName1: this.newUserForm.get('apellido1')?.value,
+          lastName2: this.newUserForm.get('apellido2')?.value,
+          password: this.newUserForm.get('dni')?.value,
+          birthDate: new Date(bDate[2]+'-'+bDate[1]+'-'+bDate[0]+'T05:00:00Z')
+        }
+        
+        this.usersService.saveNewUser(this.newUser).subscribe(resp => {
+          Swal.fire({
+            icon: 'success',
+            title: '¡Registro grabado con éxito!',
+            text: 'Se registró correctamente al usuario con DNI ' + this.newUser.dni,
+            allowOutsideClick: false
+          }).then(e => {
+            this.getUsersList('', '1', '', '');
+            this.usersForm.setValue({
+              f_ini: '',
+              f_fin: '',
+              txtToSeek: ''
+            });
+            this.newUserForm.reset();
+            this.isSaving = false;
+            //this.close();
+          });
+        }, (err) => {
+          this.isSaving = false;
+  
+          Swal.fire({
+            icon: 'error',
+            title: 'Ha ocurido un error',
+            text: err.error
+          });
+          return;
+        });
+      } else {
+        this.isSaving = false;
+  
+        Swal.fire({
+          icon: 'error',
+          title: '¡Fecha inválida!',
+          text: 'Por favor, ingrese una fecha válida.'
+        });
+        return;
+      }
+    } else {
+      this.authService.logout();
+      this.router.navigateByUrl(`/auth`);
+    }
   }
 
   ngOnDestroy(): void {

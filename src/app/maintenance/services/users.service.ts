@@ -4,12 +4,12 @@ import { HttpParams, HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { UsersResponse } from '../../models/users_response.model';
 import { LoginService } from '../../auth/services/login.service';
+import { User } from '../../models/user.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsersService {
-
   constructor(
     private http: HttpClient,
     private authService: LoginService
@@ -35,5 +35,15 @@ export class UsersService {
     );
     
     return this.http.get<number>(`${environment.url}/usersCount`, {headers, params});
+  }
+
+  saveNewUser(user: User) {
+    const headers: HttpHeaders = new HttpHeaders().set(
+      'Content-Type', 'application/json'
+    ).set(
+      'Authorization', 'Bearer' + this.authService.getToken()
+    );
+
+    return this.http.post(`${environment.url}/newUser`, user,{headers: headers});
   }
 }

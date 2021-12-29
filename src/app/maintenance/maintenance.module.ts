@@ -8,7 +8,6 @@ import { UsersComponent } from './pages/users/users.component';
 import { CampusComponent } from './pages/campus/campus.component';
 import { DataTablesModule } from 'angular-datatables';
 import { ReactiveFormsModule } from '@angular/forms';
-
 @NgModule({
   declarations: [
     UsersComponent,

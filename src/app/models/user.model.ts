@@ -8,7 +8,7 @@
 // match the expected interface, even if the JSON is valid.
 
 export interface User {
-    id:         string;
+    id?:         string;
     dni:        string;
     email:      string;
     idProfile:  number;
@@ -19,8 +19,8 @@ export interface User {
     lastName2:  string;
     password:   string;
     birthDate:  Date;
-    createAt:   Date;
-    modifiedAt: Date;
+    createAt?:   Date;
+    modifiedAt?: Date;
 }
 
 // Converts JSON strings to/from your types
