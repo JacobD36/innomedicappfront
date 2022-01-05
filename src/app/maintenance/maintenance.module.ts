@@ -8,6 +8,7 @@ import { UsersComponent } from './pages/users/users.component';
 import { CampusComponent } from './pages/campus/campus.component';
 import { DataTablesModule } from 'angular-datatables';
 import { ReactiveFormsModule } from '@angular/forms';
+import { SharedModule } from '../shared/shared.module';
 @NgModule({
   declarations: [
     UsersComponent,
@@ -19,7 +20,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     ReactiveFormsModule,
     NgbModule,
     DataTablesModule,
-    MaintenanceRoutingModule
+    MaintenanceRoutingModule,
+    SharedModule
   ]
 })
 export class MaintenanceModule { }

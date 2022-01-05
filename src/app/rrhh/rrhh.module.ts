@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 
 import { RrhhRoutingModule } from './rrhh-routing.module';
 import { PersonalComponent } from './pages/personal/personal.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SharedModule } from '../shared/shared.module';
 
 
 @NgModule({
@@ -11,7 +13,10 @@ import { PersonalComponent } from './pages/personal/personal.component';
   ],
   imports: [
     CommonModule,
-    RrhhRoutingModule
+    RrhhRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    SharedModule
   ]
 })
 export class RrhhModule { }

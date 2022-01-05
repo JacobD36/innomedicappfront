@@ -74,59 +74,7 @@
     </div>
     <!-- /.row -->
 
-    <div class="row">
-        <div class="col">
-            <div class="card card-outline card-primary">
-                <div class="card-header">
-                    <h3 class="card-title">Filtros de búsqueda</h3>
-                </div>
-                <!-- /.card-header -->
-                <div class="card-body">
-                    <form [formGroup]="usersForm" autocomplete="off" (ngSubmit)="seekForUsers()">
-                        <div class="row">
-                            <div class="col-md-4 col-xs-12">
-                                <label>Fecha Inicial</label>
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="dd/mm/aaaa" formControlName="f_ini" ngbDatepicker #d1="ngbDatepicker">
-                                        <div class="input-group-append">
-                                            <button class="btn btn-outline-secondary far fa-calendar-alt" (click)="d1.toggle()" type="button"></button>
-                                        </div>
-                                    </div>
-                                    <!--<span class="form-text text-danger" *ngIf="invalidField('f_ini')">Debe ser una fecha válida</span>-->
-                                </div>
-                            </div>
-                            <div class="col-md-4 col-xs-12">
-                                <label>Fecha Final</label>
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="dd/mm/aaaa" formControlName="f_fin" ngbDatepicker #d2="ngbDatepicker">
-                                        <div class="input-group-append">
-                                            <button class="btn btn-outline-secondary far fa-calendar-alt" (click)="d2.toggle()" type="button"></button>
-                                        </div>
-                                    </div>
-                                    <!--<span class="form-text text-danger" *ngIf="invalidField('f_fin')">Debe ser una fecha válida</span>-->
-                                </div>
-                            </div>
-                            <div class="col-md-4 col-xs-12">
-                                <div class="form-group">
-                                    <label>Texto a buscar</label>
-                                    <input type="text" class="form-control" formControlName="txtToSeek" placeholder="DNI, Apellidos, Nombres">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <button type="submit" class="btn btn-primary" style="float:right;">Buscar</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <!-- /.card-body -->
-            </div>
-            <!-- /.card -->
-        </div>
-    </div>
+    <app-search (onNewSearch)="seekForUsers($event)"></app-search>
 
     <div class="card card-outline card-primary">
         <div class="card-header">
@@ -202,7 +150,7 @@
                         <div class="col-md-6 col-xs-12">
                             <div class="form-group">
                                 <label for="dni">DNI</label>
-                                <input type="text" class="form-control" id="dni" placeholder="DNI del usuario" formControlName="dni" (keypress)="restrictNumeric($event)">
+                                <input type="text" class="form-control" id="dni" placeholder="DNI del usuario" formControlName="dni" (keypress)="utilsService.restrictNumeric($event)">
                                 <span *ngIf="invalidNewUserField('dni')" class="text-danger animated fadeIn">Mínimo 8 caracteres</span>
                             </div>
                         </div>

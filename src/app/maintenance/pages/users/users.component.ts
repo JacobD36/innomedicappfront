@@ -1,9 +1,9 @@
-import { Component, OnInit, OnDestroy, Injectable, ViewChild } from '@angular/core';
-import { NgbCalendar, NgbDateAdapter, NgbDateParserFormatter, NgbDateStruct, NgbDatepickerI18n, NgbActiveModal, NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
+import { Component, OnInit, OnDestroy, Injectable } from '@angular/core';
+import { NgbDateAdapter, NgbDateParserFormatter, NgbDatepickerI18n, NgbDateStruct, NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { UsersService } from '../../services/users.service';
 import { UsersResponse } from '../../../models/users_response.model';
 import { Subscription } from 'rxjs';
-import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { ValidatorService } from '../../../shared/services/validator.service';
 import { Globals } from '../../../shared/globals';
@@ -11,6 +11,8 @@ import { tap } from 'rxjs/operators';
 import { LoginService } from '../../../auth/services/login.service';
 import { Router } from '@angular/router';
 import { User } from '../../../models/user.model';
+import { UtilsService } from '../../../shared/services/utils.service';
+import { SearchModel } from 'src/app/models/search.model';
 
 const I18N_VALUES = {
   'es': {
@@ -103,14 +105,6 @@ export class CustomDateParserFormatter extends NgbDateParserFormatter {
   ]
 })
 export class UsersComponent implements OnInit, OnDestroy {
-  @ViewChild('usrLstForm') usrLstForm!: NgForm;
-
-  usersForm: FormGroup = this.fb.group({
-    f_ini: [''],
-    f_fin: [''],
-    txtToSeek: ['']
-  });
-
   newUserForm: FormGroup = this.fb.group({
     dni: ['', [Validators.required, Validators.minLength(8)]],
     perfil: ['', [Validators.required]],
@@ -122,18 +116,15 @@ export class UsersComponent implements OnInit, OnDestroy {
     fech_nac: ['', [Validators.required]]
   });
 
+  searchResult!: SearchModel;
+
   usuarios: UsersResponse[] = [];
   usersSubscription!: Subscription;
+  newUserSubscription!: Subscription;
   f_ini!: string;
   f_fin!: string;
   count!: number;
   page: number = 1;
-
-  initForm = {
-    f_ini: '',
-    f_fin: '',
-    txtToSeek: ''
-  }
 
   isSaving: boolean = false;
 
@@ -141,15 +132,14 @@ export class UsersComponent implements OnInit, OnDestroy {
 
   constructor(
     private usersService: UsersService,
-    private ngbCalendar: NgbCalendar,
-    private dateAdapter: NgbDateAdapter<String>,
     private fb: FormBuilder,
     private validatorService: ValidatorService,
     config: NgbModalConfig,
     private modalService: NgbModal,
     public globals: Globals,
     private authService: LoginService,
-    private router: Router
+    private router: Router,
+    public utilsService: UtilsService
   ) { 
     config.backdrop = 'static';
     config.keyboard = false;
@@ -157,46 +147,19 @@ export class UsersComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.globals.isLoading = true;
+    this.searchResult = {
+      f_ini: '',
+      f_fin: '',
+      txtToSeek: ''
+    }
     this.getUsersList('', '1', '', '');
   }
 
-  get today() {
-    return this.dateAdapter.toModel(this.ngbCalendar.getToday())!;
-  }
 
-  seekForUsers() {
-    const fech_ini: string = this.usersForm.get('f_ini')?.value || '';
-    const fech_fin: string = this.usersForm.get('f_fin')?.value || '';
-
-    if(this.initForm.f_ini == null) {this.initForm.f_ini = '';}
-    if(this.initForm.f_fin == null) {this.initForm.f_fin = '';}
-
-    if((fech_ini != '' && fech_fin == '') || (fech_ini == '' && fech_fin != '')) {
-      Swal.fire({
-        icon: 'error',
-        title: '¡No se ingresó una fecha!',
-        text: 'Por favor, complete los campos Fecha Inicial y Fecha Final si realiza el filtro por fechas.'
-      });
-    } else {
-      if(fech_ini != '' && !this.validDate(fech_ini)) {
-        Swal.fire({
-          icon: 'error',
-          title: '¡Fecha inválida!',
-          text: 'Por favor, ingrese una fecha válida.'
-        });
-        return;
-      }
-      if(fech_fin != '' && !this.validDate(fech_fin)) {
-        Swal.fire({
-          icon: 'error',
-          title: '¡Fecha inválida!',
-          text: 'Por favor, ingrese una fecha válida.'
-        });
-        return;
-      }
-      this.globals.isLoading = true;
-      this.getUsersList(this.usersForm.get('txtToSeek')?.value, '1', fech_ini, fech_fin);
-    }
+  seekForUsers(search: SearchModel) {
+    this.searchResult = search;
+    this.globals.isLoading = true;
+    this.getUsersList(search.txtToSeek, '1', search.f_ini, search.f_fin);
   }
 
   getUsersList(search: string, page: string, f_ini: string, f_fin: string) {
@@ -238,17 +201,6 @@ export class UsersComponent implements OnInit, OnDestroy {
     return true;
   }
 
-  validDate(fech: string): boolean {
-    let res: boolean = false;
-    let f_part = fech.split('-');
-    if(f_part.length == 3) {res = true;}
-    return res;
-  }
-
-  invalidField(field: string) {
-    return this.usersForm.get(field)?.invalid && this.usersForm.get(field)?.touched;
-  }
-
   invalidNewUserField(field: string) {
     return this.newUserForm.get(field)?.invalid && this.newUserForm.get(field)?.touched;
   }
@@ -266,33 +218,14 @@ export class UsersComponent implements OnInit, OnDestroy {
 
   getPage($event: any) {
     this.globals.isLoading = true;
-    this.getUsersList(this.usersForm.get('txtToSeek')?.value, $event, this.usersForm.get('f_ini')?.value || '', this.usersForm.get('f_fin')?.value || '');
+    this.getUsersList(this.searchResult.txtToSeek, $event, this.searchResult.f_ini, this.searchResult.f_fin);
   }
 
-  //Valida la entrada sólo de números
-  restrictNumeric(e: any) {
-    let input;
-    if (e.metaKey || e.ctrlKey) {
-      return true;
-    }
-    if (e.which === 32) {
-     return false;
-    }
-    if (e.which === 0) {
-     return true;
-    }
-    if (e.which < 33) {
-      return true;
-    }
-    input = String.fromCharCode(e.which);
-    return !!/[\d\s]/.test(input);
-   }
-  
   saveNewUser() {
     const fech_nac: string = this.newUserForm.get('fech_nac')?.value || '';
 
     if(this.authService.isAuth()) {
-      if(this.validDate(fech_nac)) {
+      if(this.utilsService.validDate(fech_nac)) {
         this.isSaving = true;
   
         let bDate = fech_nac.split('-');
@@ -312,7 +245,7 @@ export class UsersComponent implements OnInit, OnDestroy {
           birthDate: new Date(bDate[2]+'-'+bDate[1]+'-'+bDate[0]+'T05:00:00Z')
         }
         
-        this.usersService.saveNewUser(this.newUser).subscribe(resp => {
+        this.newUserSubscription = this.usersService.saveNewUser(this.newUser).subscribe(resp => {
           Swal.fire({
             icon: 'success',
             title: '¡Registro grabado con éxito!',
@@ -320,11 +253,7 @@ export class UsersComponent implements OnInit, OnDestroy {
             allowOutsideClick: false
           }).then(e => {
             this.getUsersList('', '1', '', '');
-            this.usersForm.setValue({
-              f_ini: '',
-              f_fin: '',
-              txtToSeek: ''
-            });
+            //Se limpia formulario de búsqueda
             this.newUserForm.reset();
             this.isSaving = false;
             //this.close();
@@ -356,6 +285,7 @@ export class UsersComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.usersSubscription.unsubscribe();
+    this.usersSubscription?.unsubscribe();
+    this.newUserSubscription?.unsubscribe();
   }
 }

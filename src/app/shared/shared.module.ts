@@ -4,11 +4,12 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { FooterComponent } from './footer/footer.component';
 import { RouterModule } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ReadingComponent } from './reading/reading.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ChartComponent } from './chart/chart.component';
 import { NgChartsModule } from 'ng2-charts';
+import { SearchComponent } from './search/search.component';
 
 @NgModule({
   declarations: [
@@ -16,12 +17,14 @@ import { NgChartsModule } from 'ng2-charts';
     SidebarComponent,
     FooterComponent,
     ReadingComponent,
-    ChartComponent
+    ChartComponent,
+    SearchComponent
   ],
   imports: [
     CommonModule,
     RouterModule,
     FormsModule,
+    ReactiveFormsModule,
     NgbModule,
     NgChartsModule
   ],
@@ -30,7 +33,8 @@ import { NgChartsModule } from 'ng2-charts';
     SidebarComponent,
     FooterComponent,
     ReadingComponent,
-    ChartComponent
+    ChartComponent,
+    SearchComponent
   ]
 })
 export class SharedModule { }
