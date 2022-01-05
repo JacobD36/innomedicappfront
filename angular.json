@@ -69,7 +69,20 @@
                             "node_modules/datatables.net-buttons/js/buttons.print.js",
                             "node_modules/datatables.net-colreorder/js/dataTables.colReorder.js",
                             "node_modules/datatables.net-responsive/js/dataTables.responsive.js",
-                            "node_modules/datatables.net-select/js/dataTables.select.js"
+                            "node_modules/datatables.net-select/js/dataTables.select.js",
+                            "src/assets/static/vendor/appear/jquery.appear.js",
+                            "src/assets/static/vendor/particles/particles.min.js",
+                            "src/assets/static/vendor/particles/particles-app.js",
+                            "src/assets/static/vendor/counter/jquery.countTo.js",
+                            "src/assets/static/vendor/typed/typed.js",
+                            "src/assets/static/vendor/owl-carousel/js/owl.carousel.min.js",
+                            "src/assets/static/vendor/magnific/jquery.magnific-popup.min.js",
+                            "src/assets/static/vendor/isotope/isotope.pkgd.min.js",
+                            "src/assets/static/vendor/jarallax/jarallax-all.js",
+                            "src/assets/static/vendor/wow/wow.min.js",
+                            "src/assets/static/vendor/mail/js/form.min.js",
+                            "src/assets/static/vendor/mail/js/script.js",
+                            "src/assets/static/js/custom.js"
                         ]
                     },
                     "configurations": {
