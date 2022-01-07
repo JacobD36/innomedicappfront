@@ -1,0 +1,178 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Razones Sociales</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a [routerLink]="'/intranet'">Inicio</a></li>
+                    <li class="breadcrumb-item active">Razones Sociales</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    <!-- /.container-fluid -->
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-md-3 col-sm-6 col-12">
+            <div class="info-box">
+                <span class="info-box-icon bg-info"><i class="fas fa-eye"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text">Activos</span>
+                    <span class="info-box-number">0</span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-md-3 col-sm-6 col-12">
+            <div class="info-box">
+                <span class="info-box-icon bg-success"><i class="fas fa-eye-slash"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text">Cesados</span>
+                    <span class="info-box-number">0</span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-md-3 col-sm-6 col-12">
+            <div class="info-box">
+                <span class="info-box-icon bg-warning"><i class="fab fa-black-tie"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text">Administradores</span>
+                    <span class="info-box-number">0</span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-md-3 col-sm-6 col-12">
+            <div class="info-box">
+                <span class="info-box-icon bg-danger"><i class="fas fa-chalkboard-teacher"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text">Otros</span>
+                    <span class="info-box-number">0</span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+
+    <app-search (onNewSearch)="searchBusiness($event)"></app-search>
+
+    <div class="card card-outline card-primary">
+        <div class="card-header">
+            <h3 class="card-title">Razones Sociales registradas</h3>
+        </div>
+        <div class="card-body">
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-md-12 pb-3">
+                    <button type="button" class="btn btn-primary" (click)="open(newBusiness)">Nueva Sede...</button>
+                </div>
+                <div class="col-12">
+                    <div class="callout callout-warning" *ngIf="businessLength()">
+                        <h5>No existen datos</h5>
+                        <p>No existe información que cumpla con los criterios de búsqueda</p>
+                    </div>
+                    <div class="card" *ngIf="!businessLength()">
+                        <div class="card-body table-responsive p-0">
+                            <table class="table table-striped table-hover text-wrap">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>RAZÓN SOCIAL</th>
+                                        <th>DESCRIPCIÓN</th>
+                                        <th>ESTADO</th>
+                                        <th>FECH_CREACION</th>
+                                        <th>FECH_MODIF</th>
+                                        <th>OPCIONES</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of businessList; let i = index">
+                                        <td>{{item.id}}</td>
+                                        <td>{{item.razon}}</td>
+                                        <td>{{item.description}}</td>
+                                        <td class="text-center"><span [ngClass]="item.status == 1 ? 'badge badge-success' : 'badge badge-danger'">{{item.status == 1 ? 'ACTIVO' : 'INACTIVO'}}</span></td>
+                                        <td>{{item.createdAt | date: 'dd/MM/YYY'}}</td>
+                                        <td>{{item.modifiedAt | date: 'dd/MM/YYY'}}</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-danger">
+                                                Borrar
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.card-body -->
+                        <ngb-pagination class="d-flex justify-content-end pr-3 pt-2" [(page)]="page" [pageSize]="10" [collectionSize]="count" (pageChange)="getPage($event)"></ngb-pagination>
+                    </div>
+                    <!-- /.card -->
+                </div>
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+
+    <ng-template #newBusiness let-c="close" let-d="dismiss">
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Nueva Sede</h4>
+            <button type="button" class="close" aria-label="Close" (click)="close()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form autocomplete="off" (ngSubmit)="saveNewBusiness()" [formGroup]="newBusinessForm">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="ruc">RUC</label>
+                                <input type="text" class="form-control" id="ruc" placeholder="RUC de la empresa" formControlName="ruc" (keypress)="utilsService.restrictNumeric($event)">
+                                <span *ngIf="invalidNewUserField('ruc')" class="text-danger animated fadeIn">El RUC debe contener 11 caracteres numéricos</span>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="razon">Razón Social</label>
+                                <input type="text" class="form-control" id="razon" placeholder="Razón social de la empresa" formControlName="razon">
+                                <span *ngIf="invalidNewUserField('razon')" class="text-danger animated fadeIn">Mínimo 6 caracteres</span>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="descripcion">Descripción</label>
+                                <textarea class="form-control" id="descripcion" formControlName="descripcion" rows="6"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary" (click)="saveNewBusiness()" [disabled]="this.newBusinessForm.invalid || isSaving"><i *ngIf="isSaving" class="fas fa-spinner fa-pulse"></i> Grabar</button>
+            <!--<button type="button" class="btn btn-danger" (click)="c('Save click')">Cancelar</button>-->
+            <button type="button" class="btn btn-danger" (click)="close()">Cancelar</button>
+        </div>
+    </ng-template>
+</section>
+<!-- /.content -->

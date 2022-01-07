@@ -31,9 +31,56 @@
                 </li>
                 <li class="nav-header">RECURSOS HUMANOS</li>
                 <li class="nav-item">
-                    <a [routerLink]="'/intranet/rrhh'" class="nav-link">
+                    <a [routerLink]="'/intranet/rrhh/personal'" class="nav-link" routerLinkActive="active">
                         <i class="nav-icon far fa-address-book"></i>
                         <p>Colaboradores</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" routerLinkActive="active">
+                        <i class="nav-icon fas fa-edit"></i>
+                        <p>
+                            Organización
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a [routerLink]="'/intranet/rrhh/business'" class="nav-link" routerLinkActive="active">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Razones Sociales</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="javascript:void(0)" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Sedes</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="javascript:void(0)" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Perfiles</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="javascript:void(0)" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Cargos</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a [routerLink]="" class="nav-link">
+                        <i class="nav-icon far fa-address-book"></i>
+                        <p>Planillas</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a [routerLink]="" class="nav-link">
+                        <i class="nav-icon far fa-address-book"></i>
+                        <p>Regímenes Pensionarios</p>
                     </a>
                 </li>
             </ul>

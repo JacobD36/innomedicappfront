@@ -1,0 +1,9 @@
+table thead tr {
+    color: white !important;
+    background-color: cornflowerblue;
+}
+
+.modal-header {
+    background-color: #17a2b8;
+    color: white;
+}
