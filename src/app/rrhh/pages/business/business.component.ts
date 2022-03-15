@@ -129,13 +129,14 @@ export class BusinessComponent implements OnInit {
     public globals: Globals,
     public authService: LoginService,
     private router: Router,
-    public utilsService: UtilsService,
+    public utilsService: UtilsService
   ) { 
     config.backdrop = 'static';
     config.keyboard = false;
   }
 
   ngOnInit(): void {
+    this.globals.showMenu = 'business';
     this.globals.isLoading = true;
     this.searchResult = {
       f_ini: '',

@@ -20,7 +20,7 @@
         <li class="navbar-item dropdown">
             <a class="nav-link" data-toggle="dropdown" href="#" routerLinkActive="active">Mantenimiento<span class="caret"></span></a>
             <div class="dropdown-menu dropdown-menu-md dropdown-menu-right">
-                <a href="javascript:void(0)" [routerLink]="'/intranet/maintenance/users'" class="dropdown-item" routerLinkActive="active">
+                <a href="javascript:void(0)" [routerLink]="'/intranet/maintenance/users'" class="dropdown-item" [class.active]="globals.showMenu === 'users'">
                     <div class="media-body">
                         <h3 class="dropdown-item-title">
                             <i class="fas fa-users nav-icon"></i>&nbsp;&nbsp;Usuarios

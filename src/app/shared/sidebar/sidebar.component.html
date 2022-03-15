@@ -22,7 +22,7 @@
                 <!-- Add icons to the links using the .nav-icon class
            with font-awesome or any other icon font library -->
                 <li class="nav-item">
-                    <a [routerLink]="'/intranet'" class="nav-link" routerLinkActive="active">
+                    <a [routerLink]="'/intranet'" class="nav-link" [class.active]="globals.showMenu === 'dashboard'">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
                             Panel de Control
@@ -31,13 +31,13 @@
                 </li>
                 <li class="nav-header">RECURSOS HUMANOS</li>
                 <li class="nav-item">
-                    <a [routerLink]="'/intranet/rrhh/personal'" class="nav-link" routerLinkActive="active">
+                    <a [routerLink]="'/intranet/rrhh/personal'" class="nav-link">
                         <i class="nav-icon far fa-address-book"></i>
                         <p>Colaboradores</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link" routerLinkActive="active">
+                    <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-edit"></i>
                         <p>
                             Organización
@@ -46,7 +46,7 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a [routerLink]="'/intranet/rrhh/business'" class="nav-link" routerLinkActive="active">
+                            <a [routerLink]="'/intranet/rrhh/business'" class="nav-link" [class.active]="globals.showMenu === 'business'">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Razones Sociales</p>
                             </a>

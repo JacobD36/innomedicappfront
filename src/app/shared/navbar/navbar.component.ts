@@ -3,6 +3,7 @@ import { LoginService } from '../../auth/services/login.service';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { environment } from '../../../environments/environment';
+import { Globals } from '../globals';
 
 @Component({
   selector: 'app-navbar',
@@ -16,7 +17,8 @@ export class NavbarComponent implements OnInit {
 
   constructor(
     private authService: LoginService,
-    private router: Router
+    private router: Router,
+    public globals: Globals
   ) { }
 
   ngOnInit(): void {

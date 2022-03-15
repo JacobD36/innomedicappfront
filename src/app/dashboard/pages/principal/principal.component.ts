@@ -1,5 +1,6 @@
 import { Component, OnInit} from '@angular/core';
 import { ChartData } from 'chart.js';
+import { Globals } from '../../../shared/globals';
 
 @Component({
   selector: 'app-principal',
@@ -15,9 +16,12 @@ export class PrincipalComponent implements OnInit {
     ]
   };
 
-  constructor() { }
+  constructor(
+    public globals: Globals
+  ) { }
 
   ngOnInit(): void {
+    this.globals.showMenu = 'dashboard';
   }
 
 }

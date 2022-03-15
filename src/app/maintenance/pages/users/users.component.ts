@@ -146,6 +146,7 @@ export class UsersComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.globals.showMenu = 'users';
     this.globals.isLoading = true;
     this.searchResult = {
       f_ini: '',
